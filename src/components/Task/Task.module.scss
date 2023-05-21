@@ -16,21 +16,19 @@
     }
 }
 
-.task {
+.item {
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 18px 0 18px;
-    line-height: 38px;
+    line-height: 20px;
     height: 58px;
     min-width: 224px;
     background-color: #EFE2E2;
     border-radius: 40px;
-
-    .item {
-        color: #463D3D;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 24px;
-    }
+    color: #463D3D;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
 }

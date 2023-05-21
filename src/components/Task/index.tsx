@@ -2,16 +2,15 @@ import React from 'react'
 import styles from './Task.module.scss'
 
 type TaskProps = {
+    value: string,
     todo: boolean
 }
 
-export const Task: React.FC<TaskProps> = ({ todo }) => {
+export const Task: React.FC<TaskProps> = ({ value, todo }) => {
 
     return (
         <div className={styles.task__wrapper}>
-            <div className={styles.task}>
-                <div className={styles.item}>Покормить кота</div>
-            </div>
+            <div className={styles.item}>{value}</div>
             {todo && <div className={styles.button}>
                 <svg width="25" height="30" viewBox="0 0 30 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g filter="url(#filter0_i_2_91)">

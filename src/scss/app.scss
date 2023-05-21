@@ -34,6 +34,12 @@ body {
         margin-bottom: 177px;
         border-radius: 40px;
 
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
         .title {
             margin-bottom: 20px;
             display: flex;
@@ -81,7 +87,6 @@ body {
             font-size: 24px;
             color: #ffffff;
         }
-
     }
 
     .add-button {
@@ -97,5 +102,6 @@ body {
         border-radius: 20px;
         border-style: solid;
         color: #ffffff;
+        cursor: pointer;
     }
 }
