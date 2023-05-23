@@ -6,7 +6,7 @@ body {
 }
 
 .wrapper {
-    margin-top: 157px;
+    padding-top: 157px;
 }
 
 .container {
@@ -20,18 +20,18 @@ body {
     flex-direction: column;
 }
 
-.list__pair {
+.row {
     display: flex;
     gap: 65px;
+    margin-bottom: 177px;
 
-    .list__block {
+    .column {
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 41px 43px 39px 36px;
         width: 475px;
         background-color: #819F9E;
-        margin-bottom: 177px;
         border-radius: 40px;
 
         .list {
@@ -43,11 +43,9 @@ body {
         .title {
             margin-bottom: 20px;
             display: flex;
-            padding: 0 18px 0 18px;
+            padding: 15px 18px;
             align-items: center;
             justify-content: center;
-            line-height: 38px;
-            height: 58px;
             min-width: 224px;
             background-color: #EFE2E2;
             border-radius: 40px;
@@ -56,7 +54,7 @@ body {
                 color: #463D3D;
                 font-style: normal;
                 font-weight: 400;
-                font-size: 24px;
+                font-size: 25px;
             }
         }
     }
@@ -95,8 +93,7 @@ body {
         font-style: normal;
         font-size: 22px;
         background: #5BA95E;
-        width: 150px;
-        height: 58px;
+        padding: 12px 15px;
         border-color: #ffffff;
         border-width: 3px;
         border-radius: 20px;
