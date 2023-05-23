@@ -16,7 +16,6 @@ const App: React.FC = () => {
   const [inputString, setInputString] = React.useState('')
   const input = useRef<HTMLInputElement>(null)
 
-
   React.useEffect(() => {
     const fetchData = async () => {
       try {

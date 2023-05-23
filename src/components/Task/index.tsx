@@ -11,10 +11,15 @@ type TaskProps = {
 }
 
 export const Task: React.FC<TaskProps> = ({ remove, transfer, id, value, todo }) => {
+    const [taskName, setTaskName] = React.useState(value)
+    const changeTaskName = () => {
+        const newTaskName = prompt(('Введите новое название задачи'))?.trim()
+        return newTaskName ? newTaskName : taskName
+    }
 
     return (
         <div className={styles.task__wrapper}>
-            <div className={styles.item}><span>{value}</span></div>
+            <div className={styles.item}><span>{taskName}</span></div>
             {todo &&
                 <>
                     <div onClick={() => transfer({ id, value, todo: false })} className={styles.button}>
@@ -36,7 +41,7 @@ export const Task: React.FC<TaskProps> = ({ remove, transfer, id, value, todo })
                             </defs>
                         </svg>
                     </div>
-                    <div className={styles.button}>
+                    <div onClick={() => setTaskName(changeTaskName)} className={styles.button}>
                         <svg width="25" height="25" viewBox="0 0 32 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd" d="M0 29.1889V37H6.75556L26.3111 14.1833L19.5556 6.37222L0 29.1889ZM31.4667 8.22222C32.1778 7.4 32.1778 6.16667 31.4667 5.34444L27.3778 0.616667C26.6667 -0.205556 25.6 -0.205556 24.8889 0.616667L21.6889 4.31667L28.4444 12.1278L31.4667 8.22222Z" fill="black" />
                         </svg>
