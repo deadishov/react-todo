@@ -12,20 +12,18 @@ export type TaskType = {
 
 const App: React.FC = () => {
   const [tasksData, setTasksData] = React.useState<TaskType[]>([])
-  const [completedTasks, setCompletedTasks] = React.useState<TaskType[]>([])
+  const [tasksDone, setTasksDone] = React.useState<TaskType[]>([])
   const [inputString, setInputString] = React.useState('')
   const input = useRef<HTMLInputElement>(null)
 
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const [taskResponse, completedResponse] = await Promise.all([
-          axios.get('https://646d077b7b42c06c3b2c71f8.mockapi.io/tasks'),
-          axios.get('https://646d077b7b42c06c3b2c71f8.mockapi.io/completed')
-        ])
-
-        setTasksData(taskResponse.data)
-        setCompletedTasks(completedResponse.data)
+        const data: TaskType[] = (await axios.get('https://646d077b7b42c06c3b2c71f8.mockapi.io/tasks'))?.data
+        const tasks = data.filter(obj => obj.todo === true)
+        const completed = data.filter(obj => obj.todo === false)
+        setTasksData(tasks)
+        setTasksDone(completed)
       } catch (error) {
         alert('Не удалось получить данные о задачах!')
         console.log(error);
@@ -59,42 +57,22 @@ const App: React.FC = () => {
     }
   }
 
-  const removeFromTasks = async (obj: TaskType) => {
+  const transferToDone = (obj: TaskType) => {
+    setTasksData(prev => prev.filter(item => item.id !== obj.id))
+    setTasksDone(prev => [...prev, obj])
+  }
+
+  const removeTask = async (obj: TaskType) => {
     try {
-      setTasksData(prev => prev.filter(item => item.id !== obj.id))
+      if (obj.todo) {
+        setTasksData(prev => prev.filter(item => item.id !== obj.id))
+      } else {
+        setTasksDone(prev => prev.filter(item => item.id !== obj.id))
+      }
       await axios.delete(`https://646d077b7b42c06c3b2c71f8.mockapi.io/tasks/${obj.id}`)
     } catch (error) {
       alert('Не удалось удалить задачу!')
       console.log(error);
-    }
-  }
-
-  const removeFromCompleted = async (obj: TaskType) => {
-    try {
-      setCompletedTasks(prev => prev.filter(item => item.id !== obj.id))
-      await axios.delete(`https://646d077b7b42c06c3b2c71f8.mockapi.io/completed/${obj.id}`)
-    } catch (error) {
-      alert('Не удалось удалить задачу!')
-      console.log(error);
-    }
-  }
-
-  const transferToCompleted = async (obj: TaskType) => {
-    try {
-      removeFromTasks(obj)
-      setCompletedTasks(prev => [...prev, obj])
-      await axios.post('https://646d077b7b42c06c3b2c71f8.mockapi.io/completed', obj)
-    } catch (error) {
-      alert('Не удалось перевести задачу в выполненные!')
-      console.log(error);
-    }
-  }
-
-  const removeTask = (obj: TaskType) => {
-    if (obj.todo) {
-      removeFromTasks(obj)
-    } else {
-      removeFromCompleted(obj)
     }
   }
 
@@ -118,7 +96,7 @@ const App: React.FC = () => {
               <ul className="list">
                 {
                   tasksData.length ? tasksData.map((obj) =>
-                    <li key={obj.id}><Task remove={removeTask} transfer={transferToCompleted} {...obj} /></li>)
+                    <li key={obj.id}><Task toCompleted={transferToDone} remove={removeTask} {...obj} /></li>)
                     : <li>Задач нет.</li>
                 }
               </ul>
@@ -129,8 +107,8 @@ const App: React.FC = () => {
               </div>
               <ul className="list">
                 {
-                  completedTasks.length ? completedTasks?.map((obj) =>
-                    <li key={obj.id}><Task remove={removeTask} transfer={transferToCompleted} {...obj} /></li>)
+                  tasksDone.length ? tasksDone.map((obj) =>
+                    <li key={obj.id}><Task toCompleted={transferToDone} remove={removeTask} {...obj} /></li>)
                     : <li>На данный момент, нет выполненных дел.</li>
                 }
               </ul>
